@@ -10,6 +10,8 @@ const Page = () => {
             Job Hub Dashboard
           </h1>
 
+          {/* check comment */}
+
           <p className="mt-4 text-lg text-slate-400">
             Discover local, global, remote jobs and company career pages from a
             single place.
