@@ -1,0 +1,15 @@
+"use client";
+import { useState } from "react";
+import Link from "next/link";
+import { ArrowLeft, ArrowUpRight, Search, X } from "lucide-react";
+import { directories } from "@/data/directories";
+export default function PlatformDirectory({ slug }: {
+    slug: string;
+}) {
+    const directory = directories.find((item) => item.slug === slug)!;
+    const [query, setQuery] = useState("");
+    const [category, setCategory] = useState("All");
+    const categories = ["All", ...new Set(directory.platforms.map((item) => item.category))];
+    const results = directory.platforms.filter((item) => (category === "All" || item.category === category) && `${item.name} ${item.description} ${item.category}`.toLowerCase().includes(query.trim().toLowerCase()));
+    return <main id="main-content" className={`directory container ${directory.tone}`}><Link href="/#explore" className="back-link"><ArrowLeft size={16}/> All career paths</Link><section className="directory-hero"><span className="eyebrow">{directory.kicker}</span><h1>{directory.title}</h1><p>{directory.description}</p><span className="directory-count">{directory.platforms.length} {slug === "companies" ? "company career pages" : "platforms"} · One place to start</span></section><section aria-label="Browse platforms"><div className="directory-toolbar"><h2>Explore {slug === "companies" ? "companies" : "platforms"}</h2><div className="search-field"><Search size={20}/><input aria-label="Search platforms by name or keyword" placeholder="Search by name or keyword…" value={query} onChange={(event) => setQuery(event.target.value)}/>{query && <button onClick={() => setQuery("")} aria-label="Clear search"><X size={17}/></button>}</div></div><div className="filter-list" aria-label="Filter by category">{categories.map((item) => <button key={item} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}</div><p className="result-count" role="status">Showing {results.length} of {directory.platforms.length} destinations</p><div className="platform-grid">{results.map((platform) => <article className="platform-card" key={platform.id}><div className="platform-top"><span className="platform-monogram" aria-hidden="true">{platform.name.slice(0, 2)}</span><span className="platform-tag">{platform.category}</span></div><h3>{platform.name}</h3><p>{platform.description}</p><a href={platform.url} target="_blank" rel="noopener noreferrer">{slug === "companies" ? "Explore careers" : "Visit platform"}<ArrowUpRight size={18}/><span className="sr-only"> at {platform.name} (opens in a new tab)</span></a></article>)}</div>{results.length === 0 && <div className="empty-state"><Search size={30}/><h3>No destinations found</h3><p>Try another keyword or explore all categories.</p><button className="button primary" onClick={() => { setQuery(""); setCategory("All"); }}>Clear filters</button></div>}<p className="directory-footnote">Your next step takes you to an external website. Browse available roles and apply directly with the provider.</p></section></main>;
+}
