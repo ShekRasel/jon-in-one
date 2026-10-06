@@ -6,7 +6,7 @@ export const companyCareers: JobPlatform[] = [
     name: "Brain Station 23",
     description:
       "One of Bangladesh's largest software companies serving global clients.",
-    url: "https://brainstation-23.com/career/",
+    url: "https://brainstation-23.easy.jobs/",
     category: "Software",
     icon: "🧠",
   },
