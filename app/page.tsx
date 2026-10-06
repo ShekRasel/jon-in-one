@@ -1,65 +1,15 @@
-import { jobCategories } from "@/data/job.catecories";
 import Link from "next/link";
-
-const Page = () => {
-  return (
-    <main>
-      <div className="mx-auto max-w-7xl px-6 py-20">
-        <div className="mb-14 text-center">
-          <h1 className="text-5xl font-bold tracking-tight">
-            Job Hub Dashboard
-          </h1>
-
-          {/* check comment */}
-
-          <p className="mt-4 text-lg text-slate-400">
-            Discover local, global, remote jobs and company career pages from a
-            single place.
-          </p>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {jobCategories.map((category) => (
-            <Link key={category.title} href={category.href} className="group">
-              <div
-                className={`
-                  h-full overflow-hidden rounded-md
-                  bg-gradient-to-br ${category.gradient}
-                  p-[1px]
-                  transition-all duration-300
-                  hover:-translate-y-1
-                  hover:shadow-[0_25px_80px_-35px_rgba(249,115,22,0.75)]
-                `}
-              >
-                <div className="h-full rounded-[1.65rem] bg-slate-950/95 p-8 backdrop-blur-sm">
-                  <div className="mb-6 text-5xl text-orange-400 transition-transform duration-300 group-hover:-translate-y-0.5">
-                    {category.icon}
-                  </div>
-
-                  <h2 className="text-2xl font-semibold tracking-tight text-white">
-                    {category.title}
-                  </h2>
-
-                  <p className="mt-4 text-sm leading-6 text-slate-400">
-                    {category.description}
-                  </p>
-
-                  <div className="mt-8 flex items-center justify-between text-sm">
-                    <span className="font-medium text-slate-300">
-                      {category.count}
-                    </span>
-                    <span className="text-white transition-transform duration-300 group-hover:translate-x-1">
-                      View →
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </main>
-  );
-};
-
-export default Page;
+import { ArrowRight, ArrowUpRight, BriefcaseBusiness, Building2, Check, Compass, Globe2, MapPin, Sparkles, Wifi } from "lucide-react";
+import { directories } from "@/data/directories";
+const icons = [MapPin, Globe2, Wifi, Building2];
+export default function Home() {
+    const total = directories.reduce((sum, item) => sum + item.platforms.length, 0);
+    return <main id="main-content">
+    <section className="hero container"><div className="hero-copy"><span className="eyebrow"><span className="status-dot"/> YOUR NEXT CHAPTER STARTS HERE</span><h1>Big ambitions.<br />Better opportunities.<br /><span>All in one place.</span></h1><p>Your next career move deserves a simpler search. Discover job platforms, remote opportunities, and company careers — all from one little hub.</p><div className="hero-actions"><Link className="button primary" href="#explore">Find your next opportunity <ArrowUpRight size={18}/></Link><Link className="text-link" href="#how-it-works">How it works <ArrowRight size={17}/></Link></div><div className="hero-note"><span><Check size={15}/> Free to explore</span><span><Check size={15}/> No sign-up needed</span></div></div>
+    <div className="hero-art" aria-hidden="true"><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="art-spark"><Sparkles size={28}/></div><div className="floating-label"><span className="status-dot"/> A world of possibilities</div><div className="opportunity-card"><div className="art-card-top"><span className="art-icon"><BriefcaseBusiness size={25}/></span><span className="tiny-pill">YOUR NEXT MOVE</span></div><span className="art-heading">A career that<br />feels like you.</span><p>Find your people. Make your impact.</p><div className="art-tags"><span>Dream bigger</span><span>Go further</span></div><div className="art-card-bottom"><span>Let’s find what’s next</span><span className="round-arrow"><ArrowUpRight size={20}/></span></div></div><div className="remote-float"><span className="small-icon"><Globe2 size={23}/></span><div><strong>Your talent. No borders.</strong><span>Local roots, global possibilities.</span></div></div><span className="art-caption">LESS SEARCHING. MORE POSSIBILITIES.</span></div></section>
+    <div className="stats-strip container"><div><strong>{total}</strong><span>career destinations</span></div><div><strong>4</strong><span>ways to find your next role</span></div><div><Globe2 size={23}/><span>Local to worldwide</span></div><div><span className="stat-star">✳</span><span>One hub. A fresh start.</span></div></div>
+    <section id="explore" className="explore container"><div className="section-heading"><div><span className="eyebrow">A LITTLE DIRECTION. A LOT OF POSSIBILITY.</span><h2>Where do you want to go next?</h2></div><p>Pick your path.<br />We’ll point you in the right direction.</p></div><div className="category-grid">{directories.map((item, index) => { const Icon = icons[index]; return <Link className={`category-card ${item.tone}`} href={`/jobs/${item.slug}`} key={item.slug}><div className="category-top"><span className="category-icon"><Icon size={25}/></span><ArrowUpRight className="category-arrow" size={21}/></div><span className="card-kicker">{item.kicker}</span><h3>{item.name}</h3><p>{item.shortDescription}</p><div className="category-bottom"><span>{item.platforms.length} {item.slug === "companies" ? "companies" : "platforms"}</span><ArrowRight size={18}/></div></Link>; })}</div></section>
+    <section className="how-section container" id="how-it-works"><div className="how-intro"><span className="eyebrow">BUILT TO KEEP THINGS SIMPLE</span><h2>A shorter path<br />to what’s next.</h2><p>More time for your next chapter.<br />Fewer tabs to get there.</p></div><div className="steps">{[{ icon: Compass, title: "Choose your direction", text: "Stay local, go global, or make anywhere your office." }, { icon: BriefcaseBusiness, title: "Find your platform", text: "Explore the job boards and companies that fit your goals." }, { icon: ArrowUpRight, title: "Make your next move", text: "Head straight to the source to explore roles and apply." }].map(({ icon: Icon, title, text }, i) => <div className="step" key={title}><span className="step-number">0{i + 1}</span><Icon size={23}/><h3>{title}</h3><p>{text}</p></div>)}</div></section>
+    <section className="bottom-callout container"><div><span className="eyebrow">GOOD THINGS START WITH A FIRST STEP</span><h2>Your next chapter is out there.</h2><p>Let’s make it a little easier to find.</p></div><Link href="#explore" className="button dark">Explore the possibilities <ArrowUpRight size={18}/></Link></section>
+  </main>;
+}
